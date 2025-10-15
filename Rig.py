@@ -7,7 +7,6 @@ Username: BrookeWhi
 This is my own work as defined by the University's Academic Misconduct Policy.
 """
 import random
-from Hacker import Hacker
 
 class Rig:
     def __init__(self, name):
@@ -37,17 +36,13 @@ class Rig:
         else:
             print("CryptoToken needed for repair")
 
-# ## Testing
-x = Rig("PC")
-print(x._Rig__storage)
-x.assetGen()
-print(x._Rig__storage)
-y = Hacker("Z")
-print(y._Hacker__inventory)
+    def rig_condition(self):
+        if self.__broken_state == False:
+            return (f"Pristine (Level {self.__upgrade_level})")
+        else:
+            return (f"Broken (Level {self.__upgrade_level})")
 
-r = Rig("toob")
-print(r._Rig__broken_state)
-r.repair(y)
-print(r._Rig__broken_state)
-print(y._Hacker__inventory)
+    def __str__(self):
+        return (f"Rig: {self.__name}, Rig Condition: {self.rig_condition()}, Upgrade Level: {self.__upgrade_level}, Stored Assets: {self.__storage}")
+
 

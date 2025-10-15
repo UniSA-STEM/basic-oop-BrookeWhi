@@ -9,7 +9,12 @@ This is my own work as defined by the University's Academic Misconduct Policy.
 
 class Asset:
     def __init__(self, name, description):
-        self.name = name
-        self.description = description
-        self.encrypted = False
+        self.__name = name
+        self.__description = description
+        self.__encrypted = False
 
+    def __str__(self):
+        if self.__encrypted == True:
+            return (f"Asset: {self.__name}: {self.__description} [Encrypted]")
+        else:
+            return (f"Asset: {self.__name}: {self.__description}")
