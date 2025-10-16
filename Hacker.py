@@ -6,6 +6,7 @@ ID: 110468647
 Username: BrookeWhi
 This is my own work as defined by the University's Academic Misconduct Policy.
 """
+from Asset import Asset
 
 class Hacker:
     def __init__(self, name):
@@ -17,6 +18,12 @@ class Hacker:
     def get_inventory(self):
         return self.__inventory
 
+    def get_inventory_item(self, item):
+        for i in self.__inventory:
+            if i.get_name() == item:
+                return i
+        return print('No item found.')
+
     def consume_asset(self, asset):
         if asset in self.__inventory:
             self.__inventory.remove(asset)
@@ -25,15 +32,21 @@ class Hacker:
         self.__rig = rig
 
     # def launch_spike(self, target_rig):
-    #
     # def extract_assets(self, target_rig):
     #
-    # def encrypt_asset(self, asset):
-    #
-    # def decrypt_asset(self, asset):
-    #
-    # def upgrade_rig(self):
-    #
+    
+    def encrypt_asset(self, asset):
+        if self.get_inventory_item("Security Chip"):
+            self.consume_asset("Security Chip")
+            Asset.encrypt(asset)
+
+    def decrypt_asset(self, asset):
+        if self.get_inventory_item("Security Chip"):
+            self.consume_asset("Security Chip")
+            Asset.decrypt(asset)
+        else:
+            print("No Security Chip")
+
     # def store_asset(self, asset):
     #
     # def retrieve_asset(self, asset):
