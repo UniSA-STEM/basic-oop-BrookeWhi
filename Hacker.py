@@ -10,7 +10,7 @@ This is my own work as defined by the University's Academic Misconduct Policy.
 class Hacker:
     def __init__(self, name):
         self.__name = name
-        self.__inventory = ["CryptoToken"]
+        self.__inventory = [Asset("CryptoToken", "Used to acquire or repair rigs."), Asset("Security Chip", "Used to encrypt or decrypt."), Asset("Security Chip", "Used to encrypt or decrypt.")]
         self.__rig = ""
         self.__trace_level = 0
 
