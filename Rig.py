@@ -11,18 +11,22 @@ import random
 class Rig:
     def __init__(self, name):
         self.__name = name
-        self.__damage_counter = 10
-        self.__broken_state = True
-        self.__storage = [("Data Spike", "Used in battles."), ("Data Spike", "Used in battles."), ("Removable Drive", "Found in rigs and used for extraction.")]
+        self.__damage_counter = 0
+        self.__broken_state = False
+        self.__storage = [Asset("Data Spike", "Used in battles."), Asset("Data Spike", "Used in battles."), Asset("Removable Drive", "Found in rigs and used for extraction.")]
         self.__upgrade_level = 0
         self.__damage_max = 2
 
-    def assetGen(self):
-        assets = ["CryptoToken", "Data Spike", "Removable Drive", "Security Chip", "Hardware Patch"]
-        asset_desc = ["Used to acquire or repair rigs.", "Used in battles.", "Found in rigs and used for extraction.",
-                      "Used to encrypt or decrypt.", "Used to upgrade rigs."]
+    def asset_gen(self):
+        assets = [
+            ("CryptoToken", "Used to acquire or repair rigs."),
+            ("Data Spike", "Used in battles."),
+            ("Security Chip", "Used to encrypt or decrypt."),
+            ("Hardware Patch", "Used to upgrade rigs."),
+            ("Removable Drive", "Found in rigs and used for extraction.")
+        ]
         index = random.randrange(len(assets))
-        new_asset = [(assets[index], asset_desc[index])]
+        new_asset = (assets[index])
         self.__storage.append(new_asset)
 
     def repair(self, Hacker):
@@ -42,7 +46,17 @@ class Rig:
         else:
             return (f"Broken (Level {self.__upgrade_level})")
 
+    def upgrade_rig(self, hacker):
+        if "Hardware Patch" in hacker.get_inventory():
+            hacker.consume_asset("Hardware Patch")
+            self.__upgrade_level = self.__upgrade_level + 1
+            self.__damage_max = self.__damage_max + 1
+        else:
+            print("No Hardware Patch")
+
     def __str__(self):
         return (f"Rig: {self.__name}, Rig Condition: {self.rig_condition()}, Upgrade Level: {self.__upgrade_level}, Stored Assets: {self.__storage}")
 
+    def get_storage(self):
+        return self.__storage
 
