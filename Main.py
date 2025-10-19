@@ -17,7 +17,12 @@ HACKER_NAME = "S1CKVYGS"
 TARGET_HACKER = None
 TARGET_HACKER_NAME = "TH3BUTCH3R"
 
+
 def create_hacker_instances():
+    """
+    Creating Hacker instances
+
+    """
     global HACKER, TARGET_HACKER
     HACKER = Hacker(HACKER_NAME)
     if HACKER is not None:
@@ -38,6 +43,10 @@ print("---------------------------------------------")
 
 
 def create_rig_instances():
+    """
+    Hacker acquires a rig
+
+    """
     HACKER.acquire_rig()
     TARGET_HACKER.acquire_rig()
 
@@ -48,8 +57,11 @@ print("---------------------------------------------")
 create_rig_instances()
 print("---------------------------------------------")
 
-
 def hacker_acquire_rig_without_token():
+    """
+    Hacker attempts to acquire Rig without having a CryptoToken.
+
+    """
     HACKER = Hacker(HACKER_NAME)
     if HACKER is not None:
         print(f"Hacker {HACKER_NAME} has been created!")
@@ -62,7 +74,12 @@ print("Running: hacker_acquire_rig_without_token()")
 print("---------------------------------------------")
 hacker_acquire_rig_without_token()
 
+
 def hacker_acquire_rig_with_existing_rig():
+    """
+    Hacker attempts to acquire Rig whilst already having existing Rig
+
+    """
     HACKER = Hacker(HACKER_NAME)
     if HACKER is not None:
         print(f"Hacker {HACKER_NAME} has been created!")
@@ -76,12 +93,11 @@ print("Running: hacker_acquire_rig_with_existing_rig()")
 print("---------------------------------------------")
 hacker_acquire_rig_with_existing_rig()
 
-
 def print_current_states():
+    """
+    Call the string conversion method to print out the current state of the hacker, their rig, and their assets.
+    """
     print(HACKER.__str__())
-    print(HACKER.get_rig().__str__())
-
-
 
 print("\n---------------------------------------------")
 print("Running: print_current_states()")
@@ -89,8 +105,11 @@ print("---------------------------------------------")
 print_current_states()
 print("---------------------------------------------")
 
-
 def hacker_upgrade_rig():
+    """
+    Hacker upgrading their Rig
+    :return:
+    """
     HACKER.add_asset("Hardware Patch")
     HACKER.use_asset("Hardware Patch")
 
@@ -103,6 +122,9 @@ print("---------------------------------------------")
 
 
 def hacker_upgrade_rig_without_patch():
+    """
+    Hacker attempts to upgrade rig without a hardware patch
+    """
     HACKER = Hacker(HACKER_NAME)
     HACKER.acquire_rig()
     HACKER.use_asset("Hardware Patch")
@@ -116,6 +138,10 @@ print("---------------------------------------------")
 
 
 def hacker_upgrade_rig_without_rig():
+    """
+    Hacker attempts to upgrade rig without a rig
+
+    """
     TEST_HACKER = Hacker(HACKER_NAME)
     TEST_HACKER.add_asset("Hardware Patch")
     TEST_HACKER.use_asset("Hardware Patch")
@@ -129,6 +155,10 @@ print("---------------------------------------------")
 
 
 def hacker_upgrade_rig_at_max_level():
+    """
+    Hacker attempts to upgrade rig past maximum upgrade level
+
+    """
     TEST_HACKER = Hacker(HACKER_NAME)
     TEST_HACKER.acquire_rig()
     for _ in range(4):
@@ -145,6 +175,10 @@ print("---------------------------------------------")
 
 
 def hacker_encrypt_asset():
+    """
+    Hacker encrypts an asset
+
+    """
     TEST_HACKER = Hacker(HACKER_NAME)
     TEST_HACKER.acquire_rig()
     TEST_HACKER.add_asset("Security Chip", 'inventory')
@@ -159,6 +193,10 @@ print("---------------------------------------------")
 
 
 def hacker_encrypt_asset_without_security_chip():
+    """
+    Hacker attempts to encrypt an asset without a security chip
+
+    """
     TEST_HACKER = Hacker(HACKER_NAME)
     TEST_HACKER.acquire_rig()
     TEST_HACKER.use_asset('Security Chip')
@@ -171,8 +209,11 @@ hacker_encrypt_asset_without_security_chip()
 print("---------------------------------------------")
 
 
-
 def hacker_decrypt_asset():
+    """
+    Hacker encrypts and then decrypts an asset
+
+    """
     TEST_HACKER = Hacker(HACKER_NAME)
     TEST_HACKER.acquire_rig()
     TEST_HACKER.add_asset("Security Chip", 'inventory')
@@ -188,6 +229,10 @@ hacker_decrypt_asset()
 print("---------------------------------------------")
 
 def hacker_decrypt_asset_without_security_chip():
+    """
+    Hacker attempts to decrypt an asset without a security chip
+
+    """
     TEST_HACKER = Hacker(HACKER_NAME)
     TEST_HACKER.acquire_rig()
     TEST_HACKER.use_asset('Security Chip', 'Data Spike')
@@ -201,6 +246,10 @@ hacker_decrypt_asset_without_security_chip()
 print("---------------------------------------------")
 
 def hacker_retrieve_asset():
+    """
+    Hacker retrieves an asset from rig storage
+
+    """
     TEST_HACKER = Hacker(HACKER_NAME)
     TEST_HACKER.acquire_rig()
     TEST_HACKER.retrieve_asset("Data Spike")
@@ -213,10 +262,17 @@ hacker_retrieve_asset()
 print("---------------------------------------------")
 
 def hacker_store_asset():
+    """
+    Hacker attempts to store assets to rig storage from inventory
+    """
     TEST_HACKER = Hacker(HACKER_NAME)
     TEST_HACKER.acquire_rig()
     TEST_HACKER.add_asset("Hardware Patch", 'inventory')
+    TEST_HACKER.add_asset("CryptoToken", 'inventory')
+    TEST_HACKER.add_asset("Security Chip", 'inventory')
+    TEST_HACKER.store_asset("CryptoToken")
     TEST_HACKER.store_asset("Hardware Patch")
+    TEST_HACKER.store_asset("Security Chip")
 
 print("\n---------------------------------------------")
 print("Running: hacker_store_asset()")
@@ -225,6 +281,10 @@ hacker_store_asset()
 print("---------------------------------------------")
 
 def hacker_store_encrypted_asset():
+    """
+    Hacker attempts to store encrypted assets to rig storage from inventory
+
+    """
     TEST_HACKER = Hacker(HACKER_NAME)
     TEST_HACKER.acquire_rig()
     TEST_HACKER.add_asset("Hardware Patch", 'inventory')
@@ -239,6 +299,9 @@ hacker_store_encrypted_asset()
 print("---------------------------------------------")
 
 def hacker_launch_attack():
+    """
+    Hacker launches data spike attacks at target hackers rig and extracts assets
+    """
     HACKER = Hacker("S1CKVYGS")
     HACKER.acquire_rig()
     TARGET_HACKER = Hacker('T4RG3T_H4KK3R')
@@ -260,6 +323,10 @@ print("---------------------------------------------")
 
 
 def hacker_launch_attack_over_trace():
+    """
+    Hacker attempts to launch data spike attacks at target hackers rig and exceeds trace level max
+
+    """
     HACKER = Hacker("S1CKVYGS")
     HACKER.acquire_rig()
     TARGET_HACKER = Hacker('T4RG3T_H4KK3R')
