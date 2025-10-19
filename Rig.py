@@ -32,6 +32,7 @@ class Rig:
                     - upgrade level (int): level of upgrade
                     - maximum damage (int): maximum damage level
                     - storage (list): list of Rig assets
+                    - maximum storage (int): maximum storage level
        """
         self.name = name
         self.__name = name
@@ -39,6 +40,7 @@ class Rig:
         self.__broken_state = False
         self.__upgrade_level = 0
         self.__damage_max = 2
+        self.__max_storage = 5
         self.__storage = [Asset("Data Spike", "Used in battles."),
                           Asset("Data Spike", "Used in battles."),
                           Asset("Removable Drive", "Found in rigs and used for extraction.")]
@@ -64,12 +66,15 @@ class Rig:
             Asset("Hardware Patch", "Used to upgrade rigs."),
             Asset("Removable Drive", "Found in rigs and used for extraction.")
         ]
-        # Generate random number within number of assets
-        index = random.randrange(len(assets))
-        new_asset = (assets[index])
-        # Add new asset to rig storage
-        self.__storage.append(new_asset)
-        print(f"New Asset generated in {self.__name}'s storage: {new_asset}")
+        if len(self.__storage) < self.__max_storage:
+            # Generate random number within number of assets
+            index = random.randrange(len(assets))
+            new_asset = (assets[index])
+            # Add new asset to rig storage
+            self.__storage.append(new_asset)
+            print(f"New Asset generated in {self.__name}'s storage: {new_asset}")
+        else:
+            print("Rig storage is full!")
 
     def repair(self, hacker):
         """
@@ -109,6 +114,7 @@ class Rig:
             if self.__upgrade_level < 3:
                 self.__upgrade_level += 1
                 self.__damage_max += 1
+                self.__max_storage += 1
                 print(f"{self.__name}'s rig has been upgraded to level {self.__upgrade_level}.")
                 return True
             else:
@@ -149,21 +155,36 @@ class Rig:
         :param asset: (Class) Class of asset
         :return: print statement
         """
-        self.__storage.append(asset)
-        print(f"{asset.name} stored in {self.__name}'s rig.")
+        if len(self.__storage) < self.__max_storage:
+            self.__storage.append(asset)
+            print(f"{asset.name} stored in {self.__name}'s rig.")
+            return True
+        else:
+            print("Cannot store asset. Rig storage is full!")
+            return False
 
-    def retrieve_asset(self, asset):
+    def retrieve_asset(self, asset, all = False):
         """
         Retrieve asset from storage - remove from storage
         :param asset: (Class) Class of asset
         :return: print statement
         """
-        # Check if asset encrypted before moving
-        if asset.get_encrypted() == False:
-            self.__storage.remove(asset)
-            print(f"{asset.name} retrieved from {self.__name}'s rig.")
+        # Retrieve all unsecured assets from storage
+        if all == True:
+            for asset in self.__storage:
+                if asset.get_encrypted() == False:
+                    self.__storage.remove(asset)
+                    print(f"{asset.name} retrieved from {self.__name}'s rig.")
+                else:
+                    print(f"Cannot extract encrypted {asset.name}")
+        # Retrieve specific unsecured asset
         else:
-            print(f"Cannot extract encrypted {asset.name}")
+            # Check if asset encrypted before moving
+            if asset.get_encrypted() == False:
+                self.__storage.remove(asset)
+                print(f"{asset.name} retrieved from {self.__name}'s rig.")
+            else:
+                print(f"Cannot extract encrypted {asset.name}")
 
     def take_damage(self):
         """
