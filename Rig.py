@@ -7,7 +7,7 @@ Username: BrookeWhi
 This is my own work as defined by the University's Academic Misconduct Policy.
 """
 import random
-
+from Asset import Asset
 class Rig:
     def __init__(self, name):
         self.__name = name
@@ -19,26 +19,24 @@ class Rig:
 
     def asset_gen(self):
         assets = [
-            ("CryptoToken", "Used to acquire or repair rigs."),
-            ("Data Spike", "Used in battles."),
-            ("Security Chip", "Used to encrypt or decrypt."),
-            ("Hardware Patch", "Used to upgrade rigs."),
-            ("Removable Drive", "Found in rigs and used for extraction.")
+            Asset("CryptoToken", "Used to acquire or repair rigs."),
+            Asset("Data Spike", "Used in battles."),
+            Asset("Security Chip", "Used to encrypt or decrypt."),
+            Asset("Hardware Patch", "Used to upgrade rigs."),
+            Asset("Removable Drive", "Found in rigs and used for extraction.")
         ]
         index = random.randrange(len(assets))
         new_asset = (assets[index])
         self.__storage.append(new_asset)
 
-    def repair(self, Hacker):
-        if "CryptoToken" in Hacker.get_inventory():
+    def repair(self, hacker):
+        if hacker.scan("CryptoToken", 'inventory') is not None:
             if self.__damage_counter > 0:
                 self.__damage_counter = 0
                 self.__broken_state = False
-                Hacker.consume_asset("CryptoToken")
-            else:
-                print("No repair needed")
-        else:
-            print("CryptoToken needed for repair")
+                print(f"{self.__name} has been repaired.")
+            elif self.__damage_counter == 0:
+                print("No repair needed.")
 
     def rig_condition(self):
         if self.__broken_state == False:
@@ -47,16 +45,51 @@ class Rig:
             return (f"Broken (Level {self.__upgrade_level})")
 
     def upgrade_rig(self, hacker):
-        if "Hardware Patch" in hacker.get_inventory():
-            hacker.consume_asset("Hardware Patch")
-            self.__upgrade_level = self.__upgrade_level + 1
-            self.__damage_max = self.__damage_max + 1
+        if hacker.scan("Hardware Patch", 'inventory') is not None:
+            self.__upgrade_level += 1
+            self.__damage_max += 1
+            print(f"{self.__name} has been upgraded to level {self.__upgrade_level}.")
         else:
-            print("No Hardware Patch")
+            print("Need Hardware Patch.")
 
     def __str__(self):
         return (f"Rig: {self.__name}, Rig Condition: {self.rig_condition()}, Upgrade Level: {self.__upgrade_level}, Stored Assets: {self.__storage}")
 
     def get_storage(self):
-        return self.__storage
+        if isinstance(self.__storage, list):
+            return self.__storage
+        return []
+
+    def get_broken_state(self):
+        return self.__broken_state
+
+    def use_storage_item(self, item):
+        for i in self.__storage:
+            if i.get_name() == item:
+                print(i)
+                consume_asset(item)
+        return print('No such asset found.')
+
+    def consume_asset(self, asset):
+        if asset in self.__storage:
+            self.__storage.remove(asset)
+            print(f"{asset} used.")
+
+    def store_asset(self, asset):
+        asset.__storage.append(asset)
+        print(f"{asset} stored in rig {self.__name}.")
+
+    def retrieve_asset(self, asset):
+        self.__storage.remove(asset)
+        print(f"{asset} retrieved from rig {self.__name}.")
+
+    def take_damage(self):
+        self.__damage_counter += 1
+        if self.__damage_counter >= self.__damage_max:
+            self.__broken_state = True
+            print(f"{self.__name} is now broken.")
+        else:
+            print(f"{self.__name} damage increased to {self.__damage_counter}.")
+
+
 
