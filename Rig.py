@@ -10,12 +10,19 @@ import random
 from Asset import Asset
 class Rig:
     def __init__(self, name):
+        self.name = name
         self.__name = name
         self.__damage_counter = 0
         self.__broken_state = False
-        self.__storage = [Asset("Data Spike", "Used in battles."), Asset("Data Spike", "Used in battles."), Asset("Removable Drive", "Found in rigs and used for extraction.")]
         self.__upgrade_level = 0
         self.__damage_max = 2
+        self.__storage = [Asset("Data Spike", "Used in battles."),
+                          Asset("Data Spike", "Used in battles."),
+                          Asset("Removable Drive", "Found in rigs and used for extraction.")]
+
+    def __str__(self):
+        storage = ', '.join([str(asset) for asset in self.__storage])
+        return (f"Rig: {self.__name}, Rig Condition: {self.rig_condition()}, Upgrade Level: {self.__upgrade_level}, Stored Assets: {storage}")
 
     def asset_gen(self):
         assets = [
@@ -28,6 +35,7 @@ class Rig:
         index = random.randrange(len(assets))
         new_asset = (assets[index])
         self.__storage.append(new_asset)
+        print(f"New Asset generated in Rig storage: {new_asset}")
 
     def repair(self, hacker):
         if hacker.scan("CryptoToken", 'inventory') is not None:
@@ -46,14 +54,16 @@ class Rig:
 
     def upgrade_rig(self, hacker):
         if hacker.scan("Hardware Patch", 'inventory') is not None:
-            self.__upgrade_level += 1
-            self.__damage_max += 1
-            print(f"{self.__name} has been upgraded to level {self.__upgrade_level}.")
+            if self.__upgrade_level < 3:
+                self.__upgrade_level += 1
+                self.__damage_max += 1
+                print(f"{self.__name}'s rig has been upgraded to level {self.__upgrade_level}.")
+                return True
+            else:
+                print(f"{self.__name}'s rig already at Max level.")
         else:
             print("Need Hardware Patch.")
-
-    def __str__(self):
-        return (f"Rig: {self.__name}, Rig Condition: {self.rig_condition()}, Upgrade Level: {self.__upgrade_level}, Stored Assets: {self.__storage}")
+            return False
 
     def get_storage(self):
         if isinstance(self.__storage, list):
@@ -67,7 +77,7 @@ class Rig:
         for i in self.__storage:
             if i.get_name() == item:
                 print(i)
-                consume_asset(item)
+                self.consume_asset(item)
         return print('No such asset found.')
 
     def consume_asset(self, asset):
