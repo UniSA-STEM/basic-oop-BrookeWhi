@@ -9,7 +9,14 @@ This is my own work as defined by the University's Academic Misconduct Policy.
 import random
 from Asset import Asset
 class Rig:
+    """
+
+    """
     def __init__(self, name):
+        """
+
+        :param name:
+        """
         self.name = name
         self.__name = name
         self.__damage_counter = 0
@@ -35,7 +42,7 @@ class Rig:
         index = random.randrange(len(assets))
         new_asset = (assets[index])
         self.__storage.append(new_asset)
-        print(f"New Asset generated in Rig storage: {new_asset}")
+        print(f"New Asset generated in {self.__name}'s storage: {new_asset}")
 
     def repair(self, hacker):
         if hacker.scan("CryptoToken", 'inventory') is not None:
@@ -86,12 +93,15 @@ class Rig:
             print(f"{asset} used.")
 
     def store_asset(self, asset):
-        asset.__storage.append(asset)
-        print(f"{asset} stored in rig {self.__name}.")
+        self.__storage.append(asset)
+        print(f"{asset.name} stored in {self.__name}'s rig.")
 
     def retrieve_asset(self, asset):
-        self.__storage.remove(asset)
-        print(f"{asset} retrieved from rig {self.__name}.")
+        if asset.get_encrypted() == False:
+            self.__storage.remove(asset)
+            print(f"{asset.name} retrieved from {self.__name}'s rig.")
+        else:
+            print(f"Cannot extract encrypted {asset.name}")
 
     def take_damage(self):
         self.__damage_counter += 1
