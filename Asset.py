@@ -6,7 +6,7 @@ ID: 110468647
 Username: BrookeWhi
 This is my own work as defined by the University's Academic Misconduct Policy.
 """
-assets = {
+Assets = {
         "CryptoToken": {"description": "Used to acquire or repair rigs."},
         "Data Spike": {"description": "Used in battles."},
         "Removable Drive": {"description": "Found in rigs and used for extraction."},
@@ -14,13 +14,15 @@ assets = {
         "Hardware Patch": {"description": "Used to upgrade rigs."}
     }
 class Asset:
-    def __init__(self, name, description):
-        self.__name = name
-        self.__description = assets[name]["description"] if description is None else description
+    def __init__(self, name, description = None):
+        self.name = name
+        self.__name = self.name
+        self.description = Assets[name]["description"] if description is None else description
+        self.__description = self.description
         self.__encrypted = False
 
     def __str__(self):
-        if self.__encrypted == True:
+        if self.get_encrypted() == True:
             return (f"Asset: {self.__name}: {self.__description} [Encrypted]")
         else:
             return (f"Asset: {self.__name}: {self.__description}")
@@ -45,4 +47,7 @@ class Asset:
 
     def get_description(self):
         return self.__description
+
+    def get_encrypted(self):
+        return self.__encrypted
 
