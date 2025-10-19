@@ -167,9 +167,8 @@ class Hacker:
                         # Check target rig condition
                         if target_rig.get_broken_state() == True:
                             self.consume_asset("Removable Drive")
-                            # Iterate through all items in target storage and retrieve
-                            for item in target_rig.get_storage():
-                                target_rig.retrieve_asset(item)
+                            # Retrieve all assets from target rig
+                            target_rig.retrieve_asset(asset, True)
 
                             self.increase_trace_level()
                         else:
@@ -233,9 +232,10 @@ class Hacker:
         else:
             # Check if encrypted, only store unencrypted
             if asset.get_encrypted() == False:
-                self.__rig.store_asset(asset)
-                self.__inventory.remove(asset)
-                self.increase_trace_level()
+                stored = self.__rig.store_asset(asset)
+                if stored:
+                    self.__inventory.remove(asset)
+                    self.increase_trace_level()
 
             elif asset.get_encrypted() == True:
                 print(f"{asset.name} is encrypted and cannot be stored.")
