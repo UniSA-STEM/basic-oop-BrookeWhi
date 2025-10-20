@@ -1,6 +1,6 @@
 """
 File: Hacker.py
-Description: <A brief description of this Python module.>
+Description: All hacker function and attributes
 Author: Brooke Whitmore
 ID: 110468647
 Username: BrookeWhi
@@ -126,14 +126,19 @@ class Hacker:
 
         # CryptoToken use
         if asset.name == "CryptoToken":
-            if self.scan("CryptoToken", 'inventory') is not None:
+            scan = self.scan("CryptoToken", 'inventory')
+            if scan == (None, None):
+                print("Need CryptoToken.")
+            else:
                 self.__rig.repair(self)
                 self.consume_asset("CryptoToken")
-            else:
-                print("Need CryptoToken.")
+
         # Data Spike use
         elif asset.name == "Data Spike":
-            if self.scan("Data Spike", 'rig') is not None:
+            scan = self.scan("Data Spike", 'inventory')
+            if scan == (None, None):
+                print("Need Data Spike.")
+            else:
                 # Check trace level is not max
                 if self.__trace_level < 5:
                     self.consume_asset("Data Spike")
@@ -142,8 +147,7 @@ class Hacker:
                     self.increase_trace_level()
                 else:
                     print("Trace level is too high.")
-            else:
-                print("Need Data Spike.")
+
         # Hardware Patch use
         elif asset.name == "Hardware Patch":
             if self.__rig == "":

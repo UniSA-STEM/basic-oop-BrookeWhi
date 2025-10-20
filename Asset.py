@@ -1,6 +1,6 @@
 """
 File: Asset.py
-Description: <A brief description of this Python module.>
+Description: All asset function and attributes
 Author: Brooke Whitmore
 ID: 110468647
 Username: BrookeWhi

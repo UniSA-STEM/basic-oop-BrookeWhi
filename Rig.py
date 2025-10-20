@@ -82,15 +82,18 @@ class Rig:
         :param hacker: (Class) Class of hacker who is assigned rig
         :return: print statement
         """
-        if hacker.scan("CryptoToken", 'inventory') is not None:
+        if hacker.scan("CryptoToken", 'inventory') == (None, None):
+            print("Rig repair failed.")
+        else:
+            if self.__damage_counter == 0:
+                print("No repair needed.")
             # Check if rig damaged
-            if self.__damage_counter > 0:
+            elif self.__damage_counter > 0:
                 # Reset damage and broken state
                 self.__damage_counter = 0
                 self.__broken_state = False
                 print(f"{self.__name} has been repaired.")
-            elif self.__damage_counter == 0:
-                print("No repair needed.")
+
 
     def rig_condition(self):
         """

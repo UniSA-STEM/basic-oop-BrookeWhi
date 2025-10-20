@@ -1,6 +1,6 @@
 """
 File: main.py
-Description: <A brief description of this Python module.>
+Description: Testing Scenarios
 Author: Brooke Whitmore
 ID: 110468647
 Username: BrookeWhi
@@ -306,14 +306,17 @@ def hacker_launch_attack():
     HACKER.acquire_rig()
     TARGET_HACKER = Hacker('T4RG3T_H4KK3R')
     TARGET_HACKER.acquire_rig()
+    TARGET_HACKER.add_asset("CryptoToken", 'inventory')
     TARGET_HACKER.add_asset("Security Chip", 'inventory')
     TARGET_HACKER.use_asset('Security Chip', 'Removable Drive')
     HACKER.retrieve_asset("Data Spike")
     HACKER.retrieve_asset("Data Spike")
     HACKER.use_asset("Data Spike", TARGET_HACKER)
     HACKER.use_asset("Data Spike", TARGET_HACKER)
+    HACKER.use_asset("Data Spike", TARGET_HACKER)
     HACKER.retrieve_asset("Removable Drive")
     HACKER.use_asset("Removable Drive", TARGET_HACKER)
+    TARGET_HACKER.use_asset("CryptoToken")
 
 print("\n---------------------------------------------")
 print("Running: hacker_store_encrypted_asset()")
